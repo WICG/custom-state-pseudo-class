@@ -9,8 +9,184 @@ Editor: Kent Tamura, Google https://www.google.com/, tkent@google.com
 Editor: Rakina Zata Amni, Google https://www.google.com/, rakina@google.com
 Editor: Domenic Denicola, Google https://www.google.com/, d@domenic.me, https://domenic.me/
 Repository: https://github.com/WICG/custom-state-pseudo-class/
-Abstract: TODO
+Abstract: This specification defines a way to expose custom element's internal states, and defines the '':state()'' [=pseudo-class=] matching to a custom element exposing a state.
 Markup Shorthands: markdown yes
 Default Biblio Status: current
 Complain About: accidental-2119 yes, missing-example-ids yes
 </pre>
+
+Introduction {#introduction}
+============================
+
+## Motivation ## {#motivation}
+
+Build-in elements provided by user agents have certain “states” that can change
+over time depending on user interaction and other factors, and are exposed to
+web authors through pseudo classes. For example, some form controls have the
+“invalid” state, which is exposed through the '':invalid'' [=pseudo-class=].
+
+Like built-in elements, [=custom elements=] can have various states to be in too,
+and [=custom element=] authors want to expose these states in a similar fashion
+as the built-in elements.
+
+## Solution ## {#solution}
+
+This specification defines an API to inform [=custom element=]'s states to the
+user agent, and a [=pseudo-class=] to select elements with specific states.
+The former is the {{ElementInternals/states}} IDL attribute of
+{{ElementInternals}}, and the latter is the '':state()'' [=pseudo-class=].
+
+
+<div class="example" id="ex-intro">
+
+Assume that <code>LabeledCheckbox</code> doesn't expose its "checked" state
+via a content attribute.
+
+<!-- <xmp> doesn't work well with backqoutes.-->
+<pre class="lang-html">
+&lt;!DOCTYPE html>
+&lt;body>
+&lt;!-- Basic usage: -->
+&lt;script>
+class LabeledCheckbox extends  HTMLElement {
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+    this.addEventListener('click', this._onClick.bind(this));
+
+    const shadowRoot = this.attachShadow({mode: 'closed'});
+    shadowRoot.innerHTML =
+      &#96;&lt;style>
+       :host::before {
+         content: '[ ]';
+         white-space: pre;
+         font-family: monospace;
+       }
+       :host(:state(checked))::before { content: '[x]' }
+       &lt;/style>
+       &lt;slot>Label&lt;/slot>&#96;;
+  }
+
+  get checked() { return this._internals.states.contains('checked'); }
+
+  set checked(flag) {
+    this._internals.states.toggle('checked', !!flag);
+  }
+
+  _onClick(event) {
+    this.checked = !this.checked;
+  }
+}
+
+customElements.define('labeled-checkbox', LabeledCheckbox);
+&lt;/script>
+
+&lt;style>
+labeled-checkbox { border: dashed red; }
+labeled-checkbox:state(checked) { border: solid; }
+&lt;/style>
+
+&lt;labeled-checkbox>You need to check this&lt;/labeled-checkbox>
+
+<!-- Works even on ::part()s -->
+&lt;script>
+class QuestionBox extends HTMLElement {
+  constructor() {
+    super();
+    const shadowRoot = this.attachShadow({mode: 'closed'});
+    shadowRoot.innerHTML =
+      &#96;&lt;div>&lt;slot>Question&lt;/slot>&lt;/div>
+       &lt;labeled-checkbox part='checkbox'>Yes&lt;/labeled-checkbox>&#96;;
+  }
+}
+customElements.define('question-box', QuestionBox);
+&lt;/script>
+
+&lt;style>
+question-box::part(checkbox) { color: red; }
+question-box::part(checkbox):state(checked) { color: green; }
+&lt;/style>
+
+&lt;question-box>Continue?&lt;/question-box>
+&lt;/body>
+</pre>
+</div>
+
+
+Exposing custom element states {#exposing}
+============================
+
+Each <a>autonomous custom element</a> has <dfn>custom states</dfn>, a [=/set=]
+of strings. It's an empty set initially.
+
+<pre class=idl>
+partial interface ElementInternals {
+  [SameObject, PutForwards=value] readonly attribute DOMTokenList states;
+};
+</pre>
+
+The {{states}} IDL attribute returns a [=non-attribute DOMTokenList=] object
+associated with context object's
+<a href="http://html.spec.whatwg.org/C/#internals-target">target element</a>
+and its [=custom states=].
+
+<div class="example" id="ex-non-boolean-state">
+[=Custom states=] can expose boolean states represented by
+existence/non-exsitence of string tokens. If an author wants to expose a state
+which can have three values, it can be converted to three boolean states.
+For example, a state called <code>readyState</code> with <code>"loading"</code>,
+<code>"interactive"</code>, and <code>"complete"</code> values can be mapped to
+three boolean states, <code>"readyState_loading"</code>,
+<code>"readyState_interactive"</code>, and <code>"readyState_complete"</code>.
+
+<pre class="lang-js">
+// Change the readyState from anything to "complete".
+this.readyState = "complete";
+this.internals.<l>{{states}}</l>.<l>{{DOMTokenList/remove}}</l>("readyState_loading", "readyState_interactive");
+this.internals.<l>{{states}}</l>.<l>{{DOMTokenList/add}}</l>("readyState_complete");
+</pre>
+</div>
+
+## Non-attribute DOMTokenList ## {#sec-non-attribute-domtokenlist}
+
+This section defines a variant of {{DOMTokenList}}, called
+<dfn>non-attribute DOMTokenList</dfn>. It has the following differences from
+{{DOMTokenList}}.
+
+- A [=non-attribute DOMTokenList=] has an associated element and an associated
+    <a>token set</a>, but no attribute local name.
+
+- A [=non-attribute DOMTokenList=] object's
+    <a href="https://dom.spec.whatwg.org/#concept-dtl-update">update steps</a> are:
+
+    1. Recompute the style of the associated element.
+      <!-- TODO: How to represent this by spec terms? -->
+
+- A [=non-attribute DOMTokenList=] object's
+    <a href="https://dom.spec.whatwg.org/#concept-dtl-serialize">serialize steps</a>
+    are to return the result of running the <a>ordered set serializer</a> for
+    <a>token set</a>.
+
+- A [=non-attribute DOMTokenList=] object has no <a>attribute change steps</a>
+    for its associated element.
+
+- Setting the {{DOMTokenList/value}} IDL attribute of a
+    [=non-attribute DOMTokenList=] object must set <a>token set</a> to the given
+    value, <a lt="ordered set parser">parsed</a>.
+
+
+Selecting a custom element with a speicfic state {#selecting}
+============================
+
+The <dfn selector>:state()</dfn> [=pseudo-class=] allows you to select elements
+with a state exposed via {{states}} IDL attribute. The '':state()''
+[=pseudo-classs=] must have one <<ident>> argument. An element matches
+'':state()'' if the element is an <a>autonomous custom element</a> and its
+[=custom states=] <a for="list">contain</a> the specified <<ident>>.
+
+<div class="example" id="ex-selector-logic">
+'':state()'' takes just one argument, and an element can expose multiple states.
+Authors can use '':state()'' with logical [=pseudo-classes=] like
+''x-foo:is(:state(state1), :state(state2))'', ''x-foo:not(:state(state2))'',
+and ''x-foo:state(state1):state(state2)''.
+</div>
