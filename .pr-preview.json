@@ -1,6 +1,6 @@
 {
-  "src_file": "index.html",
-  "type": "respec",
+  "src_file": "index.bs",
+  "type": "bikeshed",
   "params": {
     "force": 1
   }
