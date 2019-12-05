@@ -1,0 +1,14 @@
+<pre class=metadata>
+Title: Custom State Pseudo Class
+Shortname: custom-state-pseudo-class
+Level: 1
+Status: DREAM
+Group: WICG
+ED: https://wicg.github.io/custom-state-pseudo-class/
+Editor: Kent Tamura, Google https://www.google.com/, tkent@google.com
+Editor: Rakina Zata Amni, Google https://www.google.com/, rakina@google.com
+Editor: Domenic Denicola, Google https://www.google.com/, d@domenic.me, https://domenic.me/
+Repository: https://github.com/WICG/custom-state-pseudo-class/
+Abstract: TODO
+Markup Shorthands: markdown yes
+</pre>
