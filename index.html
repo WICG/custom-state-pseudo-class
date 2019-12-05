@@ -1215,7 +1215,7 @@ Possible extra rowspan handling
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version e1a165f1c2fb1cc2aceb87e110984a42830c36fa" name="generator">
   <link href="https://wicg.github.io/custom-state-pseudo-class/" rel="canonical">
-  <meta content="709f77414007c403884a194a3c8da03f3ea992a6" name="document-revision">
+  <meta content="5c9bbd06719145b543abe28539756e67a6432925" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1225,35 +1225,6 @@ Possible extra rowspan handling
 }
 [data-md] > :last-child {
     margin-bottom: 0;
-}</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
 }</style>
 <style>/* style-selflinks */
 
@@ -1301,6 +1272,35 @@ dfn > a.self-link:hover {
 a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
 dfn > a.self-link::before      { content: "#"; }</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1363,6 +1363,101 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-dfn-panel */
+
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: #DDDDDD;
+    color: black;
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: black; }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-syntax-highlighting */
+pre.idl.highlight { color: #708090; }
+.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
+code.highlight { padding: .1em; border-radius: .3em; }
+pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+c-[a] { color: #990055 } /* Keyword.Declaration */
+c-[b] { color: #990055 } /* Keyword.Type */
+c-[c] { color: #708090 } /* Comment */
+c-[d] { color: #708090 } /* Comment.Multiline */
+c-[e] { color: #0077aa } /* Name.Attribute */
+c-[f] { color: #669900 } /* Name.Tag */
+c-[g] { color: #222222 } /* Name.Variable */
+c-[k] { color: #990055 } /* Keyword */
+c-[l] { color: #000000 } /* Literal */
+c-[m] { color: #000000 } /* Literal.Number */
+c-[n] { color: #0077aa } /* Name */
+c-[o] { color: #999999 } /* Operator */
+c-[p] { color: #999999 } /* Punctuation */
+c-[s] { color: #a67f59 } /* Literal.String */
+c-[t] { color: #a67f59 } /* Literal.String.Single */
+c-[u] { color: #a67f59 } /* Literal.String.Double */
+c-[cp] { color: #708090 } /* Comment.Preproc */
+c-[c1] { color: #708090 } /* Comment.Single */
+c-[cs] { color: #708090 } /* Comment.Special */
+c-[kc] { color: #990055 } /* Keyword.Constant */
+c-[kn] { color: #990055 } /* Keyword.Namespace */
+c-[kp] { color: #990055 } /* Keyword.Pseudo */
+c-[kr] { color: #990055 } /* Keyword.Reserved */
+c-[ld] { color: #000000 } /* Literal.Date */
+c-[nc] { color: #0077aa } /* Name.Class */
+c-[no] { color: #0077aa } /* Name.Constant */
+c-[nd] { color: #0077aa } /* Name.Decorator */
+c-[ni] { color: #0077aa } /* Name.Entity */
+c-[ne] { color: #0077aa } /* Name.Exception */
+c-[nf] { color: #0077aa } /* Name.Function */
+c-[nl] { color: #0077aa } /* Name.Label */
+c-[nn] { color: #0077aa } /* Name.Namespace */
+c-[py] { color: #0077aa } /* Name.Property */
+c-[ow] { color: #999999 } /* Operator.Word */
+c-[mb] { color: #000000 } /* Literal.Number.Bin */
+c-[mf] { color: #000000 } /* Literal.Number.Float */
+c-[mh] { color: #000000 } /* Literal.Number.Hex */
+c-[mi] { color: #000000 } /* Literal.Number.Integer */
+c-[mo] { color: #000000 } /* Literal.Number.Oct */
+c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
+c-[sc] { color: #a67f59 } /* Literal.String.Char */
+c-[sd] { color: #a67f59 } /* Literal.String.Doc */
+c-[se] { color: #a67f59 } /* Literal.String.Escape */
+c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
+c-[si] { color: #a67f59 } /* Literal.String.Interpol */
+c-[sx] { color: #a67f59 } /* Literal.String.Other */
+c-[sr] { color: #a67f59 } /* Literal.String.Regex */
+c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
+c-[vc] { color: #0077aa } /* Name.Variable.Class */
+c-[vg] { color: #0077aa } /* Name.Variable.Global */
+c-[vi] { color: #0077aa } /* Name.Variable.Instance */
+c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"></p>
@@ -1387,7 +1482,7 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>TODO</p>
+   <p>This specification defines a way to expose custom element’s internal states, and defines the <a class="css" data-link-type="maybe" href="#selectordef-state" id="ref-for-selectordef-state">:state()</a> <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#pseudo-class" id="ref-for-pseudo-class">pseudo-class</a> matching to a custom element exposing a state.</p>
   </div>
   <div data-fill-with="at-risk"></div>
   <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
@@ -1404,17 +1499,165 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
    <ol class="toc" role="directory">
+    <li>
+     <a href="#introduction"><span class="secno">1</span> <span class="content">Introduction</span></a>
+     <ol class="toc">
+      <li><a href="#motivation"><span class="secno">1.1</span> <span class="content">Motivation</span></a>
+      <li><a href="#solution"><span class="secno">1.2</span> <span class="content">Solution</span></a>
+     </ol>
+    <li>
+     <a href="#exposing"><span class="secno">2</span> <span class="content">Exposing custom element states</span></a>
+     <ol class="toc">
+      <li><a href="#sec-non-attribute-domtokenlist"><span class="secno">2.1</span> <span class="content">Non-attribute DOMTokenList</span></a>
+     </ol>
+    <li><a href="#selecting"><span class="secno">3</span> <span class="content">Selecting a custom element with a speicfic state</span></a>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+    <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-here"><span class="secno"></span> <span class="content">Terms defined by this specification</span></a>
+      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
+     </ol>
     <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
      </ol>
+    <li><a href="#idl-index"><span class="secno"></span> <span class="content">IDL Index</span></a>
    </ol>
   </nav>
-  <main></main>
+  <main>
+   <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
+   <h3 class="heading settled" data-level="1.1" id="motivation"><span class="secno">1.1. </span><span class="content">Motivation</span><a class="self-link" href="#motivation"></a></h3>
+   <p>Build-in elements provided by user agents have certain “states” that can change
+over time depending on user interaction and other factors, and are exposed to
+web authors through pseudo classes. For example, some form controls have the
+“invalid” state, which is exposed through the <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/selectors-4/#invalid-pseudo" id="ref-for-invalid-pseudo">:invalid</a> <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#pseudo-class" id="ref-for-pseudo-class①">pseudo-class</a>.</p>
+   <p>Like built-in elements, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element" id="ref-for-custom-element">custom elements</a> can have various states to be in too,
+and <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element" id="ref-for-custom-element①">custom element</a> authors want to expose these states in a similar fashion
+as the built-in elements.</p>
+   <h3 class="heading settled" data-level="1.2" id="solution"><span class="secno">1.2. </span><span class="content">Solution</span><a class="self-link" href="#solution"></a></h3>
+   <p>This specification defines an API to inform <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element" id="ref-for-custom-element②">custom element</a>'s states to the
+user agent, and a <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#pseudo-class" id="ref-for-pseudo-class②">pseudo-class</a> to select elements with specific states.
+The former is the <code class="idl"><a data-link-type="idl" href="#dom-elementinternals-states" id="ref-for-dom-elementinternals-states">states</a></code> IDL attribute of <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/custom-elements.html#elementinternals" id="ref-for-elementinternals">ElementInternals</a></code>, and the latter is the <a class="css" data-link-type="maybe" href="#selectordef-state" id="ref-for-selectordef-state①">:state()</a> <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#pseudo-class" id="ref-for-pseudo-class③">pseudo-class</a>.</p>
+   <div class="example" id="ex-intro">
+    <a class="self-link" href="#ex-intro"></a> 
+    <p>Assume that <code>LabeledCheckbox</code> doesn’t expose its "checked" state
+via a content attribute.</p>
+<pre class="lang-html highlight"><c- cp>&lt;!DOCTYPE html></c->
+<c- p>&lt;</c-><c- f>body</c-><c- p>></c->
+<c- c>&lt;!-- Basic usage: --></c->
+<c- p>&lt;</c-><c- f>script</c-><c- p>></c->
+<c- kr>class</c-> LabeledCheckbox <c- kr>extends</c->  HTMLElement <c- p>{</c->
+  constructor<c- p>()</c-> <c- p>{</c->
+    <c- kr>super</c-><c- p>();</c->
+    <c- k>this</c-><c- p>.</c->_internals <c- o>=</c-> <c- k>this</c-><c- p>.</c->attachInternals<c- p>();</c->
+    <c- k>this</c-><c- p>.</c->addEventListener<c- p>(</c-><c- t>'click'</c-><c- p>,</c-> <c- k>this</c-><c- p>.</c->_onClick<c- p>.</c->bind<c- p>(</c-><c- k>this</c-><c- p>));</c->
+
+    <c- kr>const</c-> shadowRoot <c- o>=</c-> <c- k>this</c-><c- p>.</c->attachShadow<c- p>({</c->mode<c- o>:</c-> <c- t>'closed'</c-><c- p>});</c->
+    shadowRoot<c- p>.</c->innerHTML <c- o>=</c->
+      <c- sb>`&lt;style></c->
+<c- sb>       :host::before {</c->
+<c- sb>         content: '[ ]';</c->
+<c- sb>         white-space: pre;</c->
+<c- sb>         font-family: monospace;</c->
+<c- sb>       }</c->
+<c- sb>       :host(:state(checked))::before { content: '[x]' }</c->
+<c- sb>       &lt;/style></c->
+<c- sb>       &lt;slot>Label&lt;/slot>`</c-><c- p>;</c->
+  <c- p>}</c->
+
+  get checked<c- p>()</c-> <c- p>{</c-> <c- k>return</c-> <c- k>this</c-><c- p>.</c->_internals<c- p>.</c->states<c- p>.</c->contains<c- p>(</c-><c- t>'checked'</c-><c- p>);</c-> <c- p>}</c->
+
+  set checked<c- p>(</c->flag<c- p>)</c-> <c- p>{</c->
+    <c- k>this</c-><c- p>.</c->_internals<c- p>.</c->states<c- p>.</c->toggle<c- p>(</c-><c- t>'checked'</c-><c- p>,</c-> <c- o>!!</c->flag<c- p>);</c->
+  <c- p>}</c->
+
+  _onClick<c- p>(</c->event<c- p>)</c-> <c- p>{</c->
+    <c- k>this</c-><c- p>.</c->checked <c- o>=</c-> <c- o>!</c-><c- k>this</c-><c- p>.</c->checked<c- p>;</c->
+  <c- p>}</c->
+<c- p>}</c->
+
+customElements<c- p>.</c->define<c- p>(</c-><c- t>'labeled-checkbox'</c-><c- p>,</c-> LabeledCheckbox<c- p>);</c->
+<c- p>&lt;/</c-><c- f>script</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>style</c-><c- p>></c->
+<c- f>labeled-checkbox</c-> <c- p>{</c-> <c- k>border</c-><c- p>:</c-> <c- kc>dashed</c-> <c- kc>red</c-><c- p>;</c-> <c- p>}</c->
+<c- f>labeled-checkbox</c-><c- p>:</c-><c- nd>state</c-><c- o>(</c-><c- f>checked</c-><c- o>)</c-> <c- p>{</c-> <c- k>border</c-><c- p>:</c-> <c- kc>solid</c-><c- p>;</c-> <c- p>}</c->
+<c- p>&lt;/</c-><c- f>style</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>labeled-checkbox</c-><c- p>></c->You need to check this<c- p>&lt;/</c-><c- f>labeled-checkbox</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>script</c-><c- p>></c->
+<c- kr>class</c-> QuestionBox <c- kr>extends</c-> HTMLElement <c- p>{</c->
+  constructor<c- p>()</c-> <c- p>{</c->
+    <c- kr>super</c-><c- p>();</c->
+    <c- kr>const</c-> shadowRoot <c- o>=</c-> <c- k>this</c-><c- p>.</c->attachShadow<c- p>({</c->mode<c- o>:</c-> <c- t>'closed'</c-><c- p>});</c->
+    shadowRoot<c- p>.</c->innerHTML <c- o>=</c->
+      <c- sb>`&lt;div>&lt;slot>Question&lt;/slot>&lt;/div></c->
+<c- sb>       &lt;labeled-checkbox part='checkbox'>Yes&lt;/labeled-checkbox>`</c-><c- p>;</c->
+  <c- p>}</c->
+<c- p>}</c->
+customElements<c- p>.</c->define<c- p>(</c-><c- t>'question-box'</c-><c- p>,</c-> QuestionBox<c- p>);</c->
+<c- p>&lt;/</c-><c- f>script</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>style</c-><c- p>></c->
+<c- f>question-box</c-><c- p>::</c-><c- nd>part</c-><c- o>(</c-><c- f>checkbox</c-><c- o>)</c-> <c- p>{</c-> <c- k>color</c-><c- p>:</c-> <c- kc>red</c-><c- p>;</c-> <c- p>}</c->
+<c- f>question-box</c-><c- p>::</c-><c- nd>part</c-><c- o>(</c-><c- f>checkbox</c-><c- o>)</c-><c- p>:</c-><c- nd>state</c-><c- o>(</c-><c- f>checked</c-><c- o>)</c-> <c- p>{</c-> <c- k>color</c-><c- p>:</c-> <c- kc>green</c-><c- p>;</c-> <c- p>}</c->
+<c- p>&lt;/</c-><c- f>style</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>question-box</c-><c- p>></c->Continue?<c- p>&lt;/</c-><c- f>question-box</c-><c- p>></c->
+<c- p>&lt;/</c-><c- f>body</c-><c- p>></c->
+</pre>
+   </div>
+   <h2 class="heading settled" data-level="2" id="exposing"><span class="secno">2. </span><span class="content">Exposing custom element states</span><a class="self-link" href="#exposing"></a></h2>
+   <p>Each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#autonomous-custom-element" id="ref-for-autonomous-custom-element">autonomous custom element</a> has <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="custom-states">custom states</dfn>, a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set">set</a> of strings. It’s an empty set initially.</p>
+<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/custom-elements.html#elementinternals" id="ref-for-elementinternals①"><c- g>ElementInternals</c-></a> {
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards" id="ref-for-PutForwards"><c- g>PutForwards</c-></a>=<a class="idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value" id="ref-for-dom-domtokenlist-value"><c- n>value</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist"><c- n>DOMTokenList</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="ElementInternals" data-dfn-type="attribute" data-export data-readonly data-type="DOMTokenList" id="dom-elementinternals-states"><code><c- g>states</c-></code></dfn>;
+};
+</pre>
+   <p>The <code class="idl"><a data-link-type="idl" href="#dom-elementinternals-states" id="ref-for-dom-elementinternals-states①">states</a></code> IDL attribute returns a <a data-link-type="dfn" href="#non-attribute-domtokenlist" id="ref-for-non-attribute-domtokenlist">non-attribute DOMTokenList</a> object
+associated with context object’s <a href="http://html.spec.whatwg.org/C/#internals-target">target element</a> and its <a data-link-type="dfn" href="#custom-states" id="ref-for-custom-states">custom states</a>.</p>
+   <div class="example" id="ex-non-boolean-state">
+    <a class="self-link" href="#ex-non-boolean-state"></a> <a data-link-type="dfn" href="#custom-states" id="ref-for-custom-states①">Custom states</a> can expose boolean states represented by
+existence/non-exsitence of string tokens. If an author wants to expose a state
+which can have three values, it can be converted to three boolean states.
+For example, a state called <code>readyState</code> with <code>"loading"</code>, <code>"interactive"</code>, and <code>"complete"</code> values can be mapped to
+three boolean states, <code>"readyState_loading"</code>, <code>"readyState_interactive"</code>, and <code>"readyState_complete"</code>. 
+<pre class="lang-js highlight"><c- c1>// Change the readyState from anything to "complete".</c->
+<c- k>this</c-><c- p>.</c->readyState <c- o>=</c-> <c- u>"complete"</c-><c- p>;</c->
+<c- k>this</c-><c- p>.</c->internals<c- p>.</c-><code class="idl"><a data-link-type="idl" href="#dom-elementinternals-states" id="ref-for-dom-elementinternals-states②">states</a></code><c- p>.</c-><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-domtokenlist-remove" id="ref-for-dom-domtokenlist-remove">remove</a></code><c- p>(</c-><c- u>"readyState_loading"</c-><c- p>,</c-> <c- u>"readyState_interactive"</c-><c- p>);</c->
+<c- k>this</c-><c- p>.</c->internals<c- p>.</c-><code class="idl"><a data-link-type="idl" href="#dom-elementinternals-states" id="ref-for-dom-elementinternals-states③">states</a></code><c- p>.</c-><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-domtokenlist-add" id="ref-for-dom-domtokenlist-add">add</a></code><c- p>(</c-><c- u>"readyState_complete"</c-><c- p>);</c->
+</pre>
+   </div>
+   <h3 class="heading settled" data-level="2.1" id="sec-non-attribute-domtokenlist"><span class="secno">2.1. </span><span class="content">Non-attribute DOMTokenList</span><a class="self-link" href="#sec-non-attribute-domtokenlist"></a></h3>
+   <p>This section defines a variant of <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist①">DOMTokenList</a></code>, called <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="non-attribute-domtokenlist">non-attribute DOMTokenList</dfn>. It has the following differences from <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist②">DOMTokenList</a></code>.</p>
+   <ul>
+    <li data-md>
+     <p>A <a data-link-type="dfn" href="#non-attribute-domtokenlist" id="ref-for-non-attribute-domtokenlist①">non-attribute DOMTokenList</a> has an associated element and an associated <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-dtl-tokens" id="ref-for-concept-dtl-tokens">token set</a>, but no attribute local name.</p>
+    <li data-md>
+     <p>A <a data-link-type="dfn" href="#non-attribute-domtokenlist" id="ref-for-non-attribute-domtokenlist②">non-attribute DOMTokenList</a> object’s <a href="https://dom.spec.whatwg.org/#concept-dtl-update">update steps</a> are:</p>
+     <ol>
+      <li data-md>
+       <p>Recompute the style of the associated element.</p>
+     </ol>
+    <li data-md>
+     <p>A <a data-link-type="dfn" href="#non-attribute-domtokenlist" id="ref-for-non-attribute-domtokenlist③">non-attribute DOMTokenList</a> object’s <a href="https://dom.spec.whatwg.org/#concept-dtl-serialize">serialize steps</a> are to return the result of running the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-ordered-set-serializer" id="ref-for-concept-ordered-set-serializer">ordered set serializer</a> for <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-dtl-tokens" id="ref-for-concept-dtl-tokens①">token set</a>.</p>
+    <li data-md>
+     <p>A <a data-link-type="dfn" href="#non-attribute-domtokenlist" id="ref-for-non-attribute-domtokenlist④">non-attribute DOMTokenList</a> object has no <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-attributes-change-ext" id="ref-for-concept-element-attributes-change-ext">attribute change steps</a> for its associated element.</p>
+    <li data-md>
+     <p>Setting the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value" id="ref-for-dom-domtokenlist-value①">value</a></code> IDL attribute of a <a data-link-type="dfn" href="#non-attribute-domtokenlist" id="ref-for-non-attribute-domtokenlist⑤">non-attribute DOMTokenList</a> object must set <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-dtl-tokens" id="ref-for-concept-dtl-tokens②">token set</a> to the given
+value, <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-ordered-set-parser" id="ref-for-concept-ordered-set-parser">parsed</a>.</p>
+   </ul>
+   <h2 class="heading settled" data-level="3" id="selecting"><span class="secno">3. </span><span class="content">Selecting a custom element with a speicfic state</span><a class="self-link" href="#selecting"></a></h2>
+   <p>The <dfn class="dfn-paneled css" data-dfn-type="selector" data-export id="selectordef-state">:state()</dfn> <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#pseudo-class" id="ref-for-pseudo-class④">pseudo-class</a> allows you to select elements
+with a state exposed via <code class="idl"><a data-link-type="idl" href="#dom-elementinternals-states" id="ref-for-dom-elementinternals-states④">states</a></code> IDL attribute. The <a class="css" data-link-type="maybe" href="#selectordef-state" id="ref-for-selectordef-state②">:state()</a> <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#pseudo-class" id="ref-for-pseudo-class⑤">pseudo-classs</a> must have one <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#typedef-ident" id="ref-for-typedef-ident">&lt;ident></a> argument. An element matches <a class="css" data-link-type="maybe" href="#selectordef-state" id="ref-for-selectordef-state③">:state()</a> if the element is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#autonomous-custom-element" id="ref-for-autonomous-custom-element①">autonomous custom element</a> and its <a data-link-type="dfn" href="#custom-states" id="ref-for-custom-states②">custom states</a> <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-contain" id="ref-for-list-contain">contain</a> the specified <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#typedef-ident" id="ref-for-typedef-ident①">&lt;ident></a>.</p>
+   <div class="example" id="ex-selector-logic"><a class="self-link" href="#ex-selector-logic"></a> <a class="css" data-link-type="maybe" href="#selectordef-state" id="ref-for-selectordef-state④">:state()</a> takes just one argument, and an element can expose multiple states.
+Authors can use <a class="css" data-link-type="maybe" href="#selectordef-state" id="ref-for-selectordef-state⑤">:state()</a> with logical <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#pseudo-class" id="ref-for-pseudo-class⑥">pseudo-classes</a> like <span class="css">x-foo:is(:state(state1), :state(state2))</span>, <span class="css">x-foo:not(:state(state2))</span>,
+and <span class="css">x-foo:state(state1):state(state2)</span>. </div>
+  </main>
   <div data-fill-with="conformance">
-   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span></h2>
+   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
    <p> Conformance requirements are expressed with a combination of descriptive assertions and RFC 2119 terminology.
             The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
             in the normative parts of this document
@@ -1559,9 +1802,280 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
 
 })();
 </script>
-  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span></h2>
-  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span></h3>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
+  <ul class="index">
+   <li><a href="#custom-states">custom states</a><span>, in §2</span>
+   <li><a href="#non-attribute-domtokenlist">non-attribute DOMTokenList</a><span>, in §2.1</span>
+   <li><a href="#selectordef-state">:state()</a><span>, in §3</span>
+   <li><a href="#dom-elementinternals-states">states</a><span>, in §2</span>
+  </ul>
+  <aside class="dfn-panel" data-for="term-for-typedef-ident">
+   <a href="https://drafts.csswg.org/css-values-4/#typedef-ident">https://drafts.csswg.org/css-values-4/#typedef-ident</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-typedef-ident">3. Selecting a custom element with a speicfic state</a> <a href="#ref-for-typedef-ident①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-domtokenlist">
+   <a href="https://dom.spec.whatwg.org/#domtokenlist">https://dom.spec.whatwg.org/#domtokenlist</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-domtokenlist">2. Exposing custom element states</a>
+    <li><a href="#ref-for-domtokenlist①">2.1. Non-attribute DOMTokenList</a> <a href="#ref-for-domtokenlist②">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-domtokenlist-add">
+   <a href="https://dom.spec.whatwg.org/#dom-domtokenlist-add">https://dom.spec.whatwg.org/#dom-domtokenlist-add</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-domtokenlist-add">2. Exposing custom element states</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-element-attributes-change-ext">
+   <a href="https://dom.spec.whatwg.org/#concept-element-attributes-change-ext">https://dom.spec.whatwg.org/#concept-element-attributes-change-ext</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-element-attributes-change-ext">2.1. Non-attribute DOMTokenList</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-ordered-set-parser">
+   <a href="https://dom.spec.whatwg.org/#concept-ordered-set-parser">https://dom.spec.whatwg.org/#concept-ordered-set-parser</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-ordered-set-parser">2.1. Non-attribute DOMTokenList</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-ordered-set-serializer">
+   <a href="https://dom.spec.whatwg.org/#concept-ordered-set-serializer">https://dom.spec.whatwg.org/#concept-ordered-set-serializer</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-ordered-set-serializer">2.1. Non-attribute DOMTokenList</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-domtokenlist-remove">
+   <a href="https://dom.spec.whatwg.org/#dom-domtokenlist-remove">https://dom.spec.whatwg.org/#dom-domtokenlist-remove</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-domtokenlist-remove">2. Exposing custom element states</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-dtl-tokens">
+   <a href="https://dom.spec.whatwg.org/#concept-dtl-tokens">https://dom.spec.whatwg.org/#concept-dtl-tokens</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-dtl-tokens">2.1. Non-attribute DOMTokenList</a> <a href="#ref-for-concept-dtl-tokens①">(2)</a> <a href="#ref-for-concept-dtl-tokens②">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-domtokenlist-value">
+   <a href="https://dom.spec.whatwg.org/#dom-domtokenlist-value">https://dom.spec.whatwg.org/#dom-domtokenlist-value</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-domtokenlist-value">2. Exposing custom element states</a>
+    <li><a href="#ref-for-dom-domtokenlist-value①">2.1. Non-attribute DOMTokenList</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-elementinternals">
+   <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#elementinternals">https://html.spec.whatwg.org/multipage/custom-elements.html#elementinternals</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-elementinternals">1.2. Solution</a>
+    <li><a href="#ref-for-elementinternals①">2. Exposing custom element states</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-autonomous-custom-element">
+   <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#autonomous-custom-element">https://html.spec.whatwg.org/multipage/custom-elements.html#autonomous-custom-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-autonomous-custom-element">2. Exposing custom element states</a>
+    <li><a href="#ref-for-autonomous-custom-element①">3. Selecting a custom element with a speicfic state</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-custom-element">
+   <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element">https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-custom-element">1.1. Motivation</a> <a href="#ref-for-custom-element①">(2)</a>
+    <li><a href="#ref-for-custom-element②">1.2. Solution</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-list-contain">
+   <a href="https://infra.spec.whatwg.org/#list-contain">https://infra.spec.whatwg.org/#list-contain</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-list-contain">3. Selecting a custom element with a speicfic state</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-ordered-set">
+   <a href="https://infra.spec.whatwg.org/#ordered-set">https://infra.spec.whatwg.org/#ordered-set</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ordered-set">2. Exposing custom element states</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-invalid-pseudo">
+   <a href="https://drafts.csswg.org/selectors-4/#invalid-pseudo">https://drafts.csswg.org/selectors-4/#invalid-pseudo</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-invalid-pseudo">1.1. Motivation</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-pseudo-class">
+   <a href="https://drafts.csswg.org/selectors-4/#pseudo-class">https://drafts.csswg.org/selectors-4/#pseudo-class</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-pseudo-class①">1.1. Motivation</a>
+    <li><a href="#ref-for-pseudo-class②">1.2. Solution</a> <a href="#ref-for-pseudo-class③">(2)</a>
+    <li><a href="#ref-for-pseudo-class④">3. Selecting a custom element with a speicfic state</a> <a href="#ref-for-pseudo-class⑤">(2)</a> <a href="#ref-for-pseudo-class⑥">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-PutForwards">
+   <a href="https://heycam.github.io/webidl/#PutForwards">https://heycam.github.io/webidl/#PutForwards</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-PutForwards">2. Exposing custom element states</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-SameObject">
+   <a href="https://heycam.github.io/webidl/#SameObject">https://heycam.github.io/webidl/#SameObject</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-SameObject">2. Exposing custom element states</a>
+   </ul>
+  </aside>
+  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <ul class="index">
+   <li>
+    <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-typedef-ident" style="color:initial">&lt;ident></span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[DOM]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-domtokenlist" style="color:initial">DOMTokenList</span>
+     <li><span class="dfn-paneled" id="term-for-dom-domtokenlist-add" style="color:initial">add()</span>
+     <li><span class="dfn-paneled" id="term-for-concept-element-attributes-change-ext" style="color:initial">attribute change steps</span>
+     <li><span class="dfn-paneled" id="term-for-concept-ordered-set-parser" style="color:initial">ordered set parser</span>
+     <li><span class="dfn-paneled" id="term-for-concept-ordered-set-serializer" style="color:initial">ordered set serializer</span>
+     <li><span class="dfn-paneled" id="term-for-dom-domtokenlist-remove" style="color:initial">remove()</span>
+     <li><span class="dfn-paneled" id="term-for-concept-dtl-tokens" style="color:initial">token set</span>
+     <li><span class="dfn-paneled" id="term-for-dom-domtokenlist-value" style="color:initial">value</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[HTML]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-elementinternals" style="color:initial">ElementInternals</span>
+     <li><span class="dfn-paneled" id="term-for-autonomous-custom-element" style="color:initial">autonomous custom element</span>
+     <li><span class="dfn-paneled" id="term-for-custom-element" style="color:initial">custom element</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[INFRA]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-list-contain" style="color:initial">contain</span>
+     <li><span class="dfn-paneled" id="term-for-ordered-set" style="color:initial">set</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-invalid-pseudo" style="color:initial">:invalid</span>
+     <li><span class="dfn-paneled" id="term-for-pseudo-class" style="color:initial">pseudo-class</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-PutForwards" style="color:initial">PutForwards</span>
+     <li><span class="dfn-paneled" id="term-for-SameObject" style="color:initial">SameObject</span>
+    </ul>
+  </ul>
+  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
+   <dt id="biblio-css-values-4">[CSS-VALUES-4]
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://drafts.csswg.org/css-values-4/">CSS Values and Units Module Level 4</a>. URL: <a href="https://drafts.csswg.org/css-values-4/">https://drafts.csswg.org/css-values-4/</a>
+   <dt id="biblio-dom">[DOM]
+   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+   <dt id="biblio-html">[HTML]
+   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-infra">[INFRA]
+   <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+   <dt id="biblio-selectors-4">[SELECTORS-4]
+   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://drafts.csswg.org/selectors/">Selectors Level 4</a>. URL: <a href="https://drafts.csswg.org/selectors/">https://drafts.csswg.org/selectors/</a>
+   <dt id="biblio-webidl">[WebIDL]
+   <dd>Boris Zbarsky. <a href="https://heycam.github.io/webidl/">Web IDL</a>. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
   </dl>
+  <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
+<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/custom-elements.html#elementinternals" id="ref-for-elementinternals①①"><c- g>ElementInternals</c-></a> {
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g>SameObject</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards" id="ref-for-PutForwards①"><c- g>PutForwards</c-></a>=<a class="idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value" id="ref-for-dom-domtokenlist-value②"><c- n>value</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist③"><c- n>DOMTokenList</c-></a> <a data-readonly data-type="DOMTokenList" href="#dom-elementinternals-states"><code><c- g>states</c-></code></a>;
+};
+
+</pre>
+  <aside class="dfn-panel" data-for="custom-states">
+   <b><a href="#custom-states">#custom-states</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-custom-states">2. Exposing custom element states</a> <a href="#ref-for-custom-states①">(2)</a>
+    <li><a href="#ref-for-custom-states②">3. Selecting a custom element with a speicfic state</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-elementinternals-states">
+   <b><a href="#dom-elementinternals-states">#dom-elementinternals-states</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-elementinternals-states">1.2. Solution</a>
+    <li><a href="#ref-for-dom-elementinternals-states①">2. Exposing custom element states</a> <a href="#ref-for-dom-elementinternals-states②">(2)</a> <a href="#ref-for-dom-elementinternals-states③">(3)</a>
+    <li><a href="#ref-for-dom-elementinternals-states④">3. Selecting a custom element with a speicfic state</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="non-attribute-domtokenlist">
+   <b><a href="#non-attribute-domtokenlist">#non-attribute-domtokenlist</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-non-attribute-domtokenlist">2. Exposing custom element states</a>
+    <li><a href="#ref-for-non-attribute-domtokenlist①">2.1. Non-attribute DOMTokenList</a> <a href="#ref-for-non-attribute-domtokenlist②">(2)</a> <a href="#ref-for-non-attribute-domtokenlist③">(3)</a> <a href="#ref-for-non-attribute-domtokenlist④">(4)</a> <a href="#ref-for-non-attribute-domtokenlist⑤">(5)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="selectordef-state">
+   <b><a href="#selectordef-state">#selectordef-state</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-selectordef-state①">1.2. Solution</a>
+    <li><a href="#ref-for-selectordef-state②">3. Selecting a custom element with a speicfic state</a> <a href="#ref-for-selectordef-state③">(2)</a> <a href="#ref-for-selectordef-state④">(3)</a> <a href="#ref-for-selectordef-state⑤">(4)</a>
+   </ul>
+  </aside>
+<script>/* script-dfn-panel */
+
+document.body.addEventListener("click", function(e) {
+    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
+    // Find the dfn element or panel, if any, that was clicked on.
+    var el = e.target;
+    var target;
+    var hitALink = false;
+    while(el.parentElement) {
+        if(el.tagName == "A") {
+            // Clicking on a link in a <dfn> shouldn't summon the panel
+            hitALink = true;
+        }
+        if(el.classList.contains("dfn-paneled")) {
+            target = "dfn";
+            break;
+        }
+        if(el.classList.contains("dfn-panel")) {
+            target = "dfn-panel";
+            break;
+        }
+        el = el.parentElement;
+    }
+    if(target != "dfn-panel") {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
+            el.classList.remove("on");
+            el.classList.remove("activated");
+        });
+    }
+    if(target == "dfn" && !hitALink) {
+        // open the panel
+        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
+        if(dfnPanel) {
+            dfnPanel.classList.add("on");
+            var rect = el.getBoundingClientRect();
+            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
+            dfnPanel.style.top = window.scrollY + rect.top + "px";
+            var panelRect = dfnPanel.getBoundingClientRect();
+            var panelWidth = panelRect.right - panelRect.left;
+            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
+                // Reposition, because the panel is overflowing
+                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
+            }
+        } else {
+            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
+        }
+    } else if(target == "dfn-panel") {
+        // Switch it to "activated" state, which pins it.
+        el.classList.add("activated");
+        el.style.left = null;
+        el.style.top = null;
+    }
+
+});
+</script>
