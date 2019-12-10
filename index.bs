@@ -48,7 +48,7 @@ via a content attribute.
 &lt;body>
 &lt;!-- Basic usage: -->
 &lt;script>
-class LabeledCheckbox extends  HTMLElement {
+class LabeledCheckbox extends HTMLElement {
   constructor() {
     super();
     this._internals = this.attachInternals();
@@ -116,8 +116,9 @@ question-box::part(checkbox):state(checked) { color: green; }
 Exposing custom element states {#exposing}
 ============================
 
-Each <a>autonomous custom element</a> has <dfn>custom states</dfn>, a [=/set=]
-of strings. It's an empty set initially.
+Each <a>autonomous custom element</a> has <dfn>states token list</dfn>, a
+<a>non-attribute <code>DOMTokenList</code></a> object associated with the custom
+element, and initially associated with an empty [=/set=] of strings.
 
 <pre class=idl>
 partial interface ElementInternals {
@@ -125,64 +126,66 @@ partial interface ElementInternals {
 };
 </pre>
 
-The {{states}} IDL attribute returns a [=non-attribute DOMTokenList=] object
-associated with context object's
-<a href="http://html.spec.whatwg.org/C/#internals-target">target element</a>
-and its [=custom states=].
+The {{states}} IDL attribute returns the [=states token list=] of 
+this's
+<a href="http://html.spec.whatwg.org/C/#internals-target">target element</a>.
 
 <div class="example" id="ex-non-boolean-state">
-[=Custom states=] can expose boolean states represented by
-existence/non-exsitence of string tokens. If an author wants to expose a state
-which can have three values, it can be converted to three boolean states.
-For example, a state called <code>readyState</code> with <code>"loading"</code>,
-<code>"interactive"</code>, and <code>"complete"</code> values can be mapped to
-three boolean states, <code>"readyState_loading"</code>,
-<code>"readyState_interactive"</code>, and <code>"readyState_complete"</code>.
+[=States token list=] can expose boolean states represented by
+existence/non-existence of string tokens. If an author wants to expose a state
+which can have three values, it can be converted to three exclusive boolean
+states. For example, a state called <code>readyState</code> with
+<code>"loading"</code>, <code>"interactive"</code>, and <code>"complete"</code>
+values can be mapped to three exclusive boolean states, <code>"loading"</code>,
+<code>"interactive"</code>, and <code>"complete"</code>.
 
 <pre class="lang-js">
 // Change the readyState from anything to "complete".
-this.readyState = "complete";
-this.internals.<l>{{states}}</l>.<l>{{DOMTokenList/remove}}</l>("readyState_loading", "readyState_interactive");
-this.internals.<l>{{states}}</l>.<l>{{DOMTokenList/add}}</l>("readyState_complete");
+this._readyState = "complete";
+this.internals.<l>{{states}}</l>.<l>{{DOMTokenList/remove}}</l>("loading", "interactive");
+this.internals.<l>{{states}}</l>.<l>{{DOMTokenList/add}}</l>("complete");
 </pre>
 </div>
 
-## Non-attribute DOMTokenList ## {#sec-non-attribute-domtokenlist}
+## Non-attribute <code>DOMTokenList</code> ## {#sec-non-attribute-domtokenlist}
 
 This section defines a variant of {{DOMTokenList}}, called
-<dfn>non-attribute DOMTokenList</dfn>. It has the following differences from
-{{DOMTokenList}}.
+<dfn>non-attribute <code>DOMTokenList</code></dfn>. It has the following
+differences from {{DOMTokenList}}.
 
-- A [=non-attribute DOMTokenList=] has an associated element and an associated
-    <a>token set</a>, but no attribute local name.
+- A <a>non-attribute <code>DOMTokenList</code></a> has an associated element and
+    an associated <a>token set</a>, but no attribute local name.
 
-- A [=non-attribute DOMTokenList=] object's
-    <a href="https://dom.spec.whatwg.org/#concept-dtl-update">update steps</a> are:
+- A <a>non-attribute <code>DOMTokenList</code></a> object has no
+    <a href="https://dom.spec.whatwg.org/#concept-dtl-update">update steps</a>.
 
-    1. Recompute the style of the associated element.
-      <!-- TODO: How to represent this by spec terms? -->
-
-- A [=non-attribute DOMTokenList=] object's
+- A <a>non-attribute <code>DOMTokenList</code></a> object's
     <a href="https://dom.spec.whatwg.org/#concept-dtl-serialize">serialize steps</a>
     are to return the result of running the <a>ordered set serializer</a> for
     <a>token set</a>.
 
-- A [=non-attribute DOMTokenList=] object has no <a>attribute change steps</a>
-    for its associated element.
+- A <a>non-attribute <code>DOMTokenList</code></a> object has no
+    <a>attribute change steps</a> for its associated element.
 
 - Setting the {{DOMTokenList/value}} IDL attribute of a
-    [=non-attribute DOMTokenList=] object must set <a>token set</a> to the given
-    value, <a lt="ordered set parser">parsed</a>.
+    <a>non-attribute <code>DOMTokenList</code></a> object must set
+    <a>token set</a> to the given value, <a lt="ordered set parser">parsed</a>.
 
 
 Selecting a custom element with a speicfic state {#selecting}
 ============================
 
-The <dfn selector>:state()</dfn> [=pseudo-class=] allows you to select elements
-with a state exposed via {{states}} IDL attribute. The '':state()''
-[=pseudo-classs=] must have one <<ident>> argument. An element matches
-'':state()'' if the element is an <a>autonomous custom element</a> and its
-[=custom states=] <a for="list">contain</a> the specified <<ident>>.
+The <dfn selector>:state()</dfn> [=pseudo-class=] applies while an element has a
+certain state. "State" is a per-element information which can change over time
+depending on user interaction and other extrinsic factors.
+The '':state()'' [=pseudo-classs=] must have one <<ident>> argument, otherwise
+the selector is invalid.
+<!-- The above paragraph is independent from document languages. -->
+
+The '':state()'' [=pseudo-class=] must match any element that is an
+<a>autonomous custom element</a> and its [=states token list=]
+<a for="list">contain</a> the specified <<ident>>.
+<!-- The above paragraph depends on HTML as a document language. -->
 
 <div class="example" id="ex-selector-logic">
 '':state()'' takes just one argument, and an element can expose multiple states.
