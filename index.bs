@@ -169,8 +169,8 @@ if following edits were applied to the definition of {{DOMTokenList}}.
     <p>A {{DOMTokenList}} object also has an associated element and an optional
     attribute’s local name. If the {{DOMTokenList}} object has an attribute's
     local name, then it is known as an
-    <dfn>attribute-associated <code>DOMTokenList</code></dfn>; otherwise it is a
-    <a>non-attribute <code>DOMTokenList</code></a>.</p>
+    <strong>attribute-associated <code>DOMTokenList</code></strong>; otherwise
+    it is a <a>non-attribute <code>DOMTokenList</code></a>.</p>
     </blockquote>
 
 - <p>Replace this paragraph:</p>
