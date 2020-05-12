@@ -10,9 +10,9 @@ Editor: Rakina Zata Amni, Google https://www.google.com/, rakina@google.com
 Editor: Domenic Denicola, Google https://www.google.com/, d@domenic.me, https://domenic.me/
 Repository: https://github.com/WICG/custom-state-pseudo-class/
 Abstract: This specification defines a way to expose custom element's internal
-    states, and defines the '':state()'' [=pseudo-class=] matching to a custom
-    element exposing a state. This specification is intended to be merged to
-    [[DOM]], [[HTML]], and [[selectors-4]] in the future.
+    states, and defines the <a>custom state pseudo class</a> '':--foo'' matching
+    to a custom element exposing a state. This specification is intended to be
+    merged to [[DOM]], [[HTML]], and [[selectors-4]] in the future.
 Markup Shorthands: markdown yes
 Default Biblio Status: current
 Complain About: accidental-2119 yes, missing-example-ids yes
@@ -37,7 +37,7 @@ as the built-in elements.
 This specification defines an API to inform [=custom element=]'s states to the
 user agent, and a [=pseudo-class=] to select elements with specific states.
 The former is the {{ElementInternals/states}} IDL attribute of
-{{ElementInternals}}, and the latter is the '':state()'' [=pseudo-class=].
+{{ElementInternals}}, and the latter is the <a>custom state pseudo class</a>.
 
 
 <div class="example" id="ex-intro">
@@ -65,15 +65,15 @@ class LabeledCheckbox extends HTMLElement {
          white-space: pre;
          font-family: monospace;
        }
-       :host(:state(checked))::before { content: '[x]' }
+       :host(:--checked)::before { content: '[x]' }
        &lt;/style>
        &lt;slot>Label&lt;/slot>&#96;;
   }
 
-  get checked() { return this._internals.states.contains('checked'); }
+  get checked() { return this._internals.states.contains('--checked'); }
 
   set checked(flag) {
-    this._internals.states.toggle('checked', !!flag);
+    this._internals.states.toggle('--checked', !!flag);
   }
 
   _onClick(event) {
@@ -86,7 +86,7 @@ customElements.define('labeled-checkbox', LabeledCheckbox);
 
 &lt;style>
 labeled-checkbox { border: dashed red; }
-labeled-checkbox:state(checked) { border: solid; }
+labeled-checkbox:--checked { border: solid; }
 &lt;/style>
 
 &lt;labeled-checkbox>You need to check this&lt;/labeled-checkbox>
@@ -107,7 +107,7 @@ customElements.define('question-box', QuestionBox);
 
 &lt;style>
 question-box::part(checkbox) { color: red; }
-question-box::part(checkbox):state(checked) { color: green; }
+question-box::part(checkbox):--checked { color: green; }
 &lt;/style>
 
 &lt;question-box>Continue?&lt;/question-box>
@@ -141,17 +141,17 @@ existence/non-existence of string tokens. If an author wants to expose a state
 which can have three values, it can be converted to three exclusive boolean
 states. For example, a state called <code>readyState</code> with
 <code>"loading"</code>, <code>"interactive"</code>, and <code>"complete"</code>
-values can be mapped to three exclusive boolean states, <code>"loading"</code>,
-<code>"interactive"</code>, and <code>"complete"</code>.
+values can be mapped to three exclusive boolean states, <code>"--loading"</code>,
+<code>"--interactive"</code>, and <code>"--complete"</code>.
 
 <pre class="lang-js">
 // Change the readyState from anything to "complete".
 this._readyState = "complete";
-this._internals.<l>{{states}}</l>.<l>{{DOMTokenList/remove}}</l>("loading", "interactive");
-this._internals.<l>{{states}}</l>.<l>{{DOMTokenList/add}}</l>("complete");
+this._internals.<l>{{states}}</l>.<l>{{DOMTokenList/remove}}</l>("--loading", "--interactive");
+this._internals.<l>{{states}}</l>.<l>{{DOMTokenList/add}}</l>("--complete");
 // If this has no states other than _readyState, the following also works in
 // addition to remove() and add().
-// this._internals.<l>{{states}}</l> = "complete";
+// this._internals.<l>{{states}}</l> = "--complete";
 </pre>
 
 Issue(WICG/custom-state-pseudo-class#4): Support non-boolean states.
@@ -262,21 +262,22 @@ if following edits were applied to the definition of {{DOMTokenList}}.
 Selecting a custom element with a speicfic state {#selecting}
 ============================
 
-The <dfn selector>:state()</dfn> [=pseudo-class=] applies while an element has a
-certain state. "State" is a per-element information which can change over time
-depending on user interaction and other extrinsic factors.
-The '':state()'' [=pseudo-classs=] must have one <<ident>> argument, otherwise
-the selector is invalid.
+The <dfn>custom state pseudo class</dfn> '':--foo'' is a [=pseudo class=],
+and applies while an element has a certain state. "State" is a per-element
+information which can change over time depending on user interaction and other
+extrinsic factors. The <a>custom state pseudo class</a> must start with '':'',
+followed by one <<dashed-ident>>, otherwise the selector is invalid.
 <!-- The above paragraph is independent from document languages. -->
 
-The '':state()'' [=pseudo-class=] must match any element that is an
+The <a>custom state pseudo class</a> must match any element that is an
 <a>autonomous custom element</a> and whose [=states token list=]
-<a for="list">contains</a> the specified <<ident>>.
+<a for="list">contains</a> the specified <<dashed-ident>>.
 <!-- The above paragraph depends on HTML as a document language. -->
 
 <div class="example" id="ex-selector-logic">
-'':state()'' takes just one argument, and an element can expose multiple states.
-Authors can use '':state()'' with logical [=pseudo-classes=] like
-''x-foo:is(:state(state1), :state(state2))'', ''x-foo:not(:state(state2))'',
-and ''x-foo:state(state1):state(state2)''.
+A <a>custom state pseudo class</a> contains just one <<dashed-ident>>, and an
+element can expose multiple states. Authors can use
+<a>custom state pseudo class</a> with logical [=pseudo-classes=] like
+''x-foo:is(:--state1, :--state2)'', ''x-foo:not(:--state2)'', and
+''x-foo:--state1:--state2''.
 </div>
