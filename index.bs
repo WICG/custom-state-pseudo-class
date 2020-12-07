@@ -259,7 +259,7 @@ if following edits were applied to the definition of {{DOMTokenList}}.
     </blockquote>
 
 
-Selecting a custom element with a speicfic state {#selecting}
+Selecting a custom element with a specific state {#selecting}
 ============================
 
 The <dfn>custom state pseudo class</dfn> '':--foo'' is a [=pseudo-class=],
