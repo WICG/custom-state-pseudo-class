@@ -154,7 +154,7 @@ method, when invoked, must run these steps:
  default <code>add</code> operation</a>, which the
  <code>setlike&lt;DOMString></code> would have if {{CustomStateSet}}
  interface had no {{CustomStateSet/add(value)}} operation, with
- <var>value</var> arguemnt.</p></li>
+ <var>value</var> argument.</p></li>
 </ol>
 
 
