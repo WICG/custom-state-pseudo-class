@@ -123,7 +123,7 @@ Exposing custom element states {#exposing}
 ============================
 
 Each <a>autonomous custom element</a> has <dfn>states set</dfn>, a
-[=/set=] of strings, and the the custom element is initially associated with
+[=/set=] of strings, and the custom element is initially associated with
 an empty [=/set=] of strings.
 
 Issue(whatwg/html#5166): Support customized built-in elements.
