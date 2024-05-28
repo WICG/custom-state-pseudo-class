@@ -1,7 +1,3 @@
-# Custom State Pseudo Class
+# Retired
 
-You probably want to check out the [explainer.md](explainer.md) and
-[the specification](https://wicg.github.io/custom-state-pseudo-class/).
-
-This is the repository for custom-state-pseudo-class. You're welcome to
-[[contribute]](CONTRIBUTING.md)!
+This specification was merged [into the HTML Standard](https://html.spec.whatwg.org/multipage/custom-elements.html#custom-state-pseudo-class), and probably eventually will also appear in [a CSS spec](https://github.com/w3c/csswg-drafts/issues/4805).
